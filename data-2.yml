@@ -1,0 +1,64 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: es-data-2
+  labels:
+    application: demo
+    component: elasticsearch
+    type: data
+    id: '2'
+spec:
+  replicas: 1
+  minReadySeconds: 5
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        application: demo
+        component: elasticsearch
+        type: data
+        id: '2'
+    spec:
+      containers:
+      - name: elasticsearch
+        image: quay.io/pires/docker-elasticsearch-kubernetes:2.4.1
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 9300
+          name: transport
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 9200
+        env:
+        - name: DISCOVERY_SERVICE
+          value: elasticsearch-masters
+        - name: NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: CLUSTER_NAME
+          value: 'demo'
+        - name: NODE_MASTER
+          value: 'false'
+        - name: NODE_DATA
+          value: 'true'
+        - name: ES_HEAP_SIZE
+          value: '1g'
+        securityContext:
+          privileged: true
+          capabilities:
+            add:
+              - IPC_LOCK
+        resources:
+          requests:
+            memory: 2Gi
+        volumeMounts:
+        - name: es-data
+          mountPath: /data
+      volumes:
+      - name: es-data
+        gcePersistentDisk:
+          pdName: es-demo-2
+          fsType: ext4

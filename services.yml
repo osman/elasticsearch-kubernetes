@@ -1,0 +1,42 @@
+kind: List
+apiVersion: v1
+items:
+- apiVersion: v1
+  kind: Service
+  metadata:
+    name: elasticsearch
+    labels:
+      application: demo
+      component: elasticsearch
+      type: client
+  spec:
+    ports:
+    - port: 9200
+      targetPort: 9200
+      name: http
+    - port: 9300
+      targetPort: 9300
+      name: transport
+    selector:
+      application: demo
+      component: elasticsearch
+      type: client
+    type: NodePort
+- apiVersion: v1
+  kind: Service
+  metadata:
+    name: elasticsearch-masters
+    labels:
+      application: demo
+      component: elasticsearch
+      type: master
+  spec:
+    clusterIP: None
+    ports:
+    - port: 9300
+      targetPort: 9300
+      name: transport
+    selector:
+      application: demo
+      component: elasticsearch
+      type: master
