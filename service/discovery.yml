@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: elasticsearch-masters
+  labels:
+    application: demo
+    component: elasticsearch
+    type: master
+spec:
+  clusterIP: None
+  ports:
+  - port: 9300
+    targetPort: 9300
+    name: transport
+  selector:
+    application: demo
+    component: elasticsearch
+    type: master
