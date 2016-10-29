@@ -45,7 +45,7 @@ spec:
         - name: NODE_DATA
           value: 'true'
         - name: ES_HEAP_SIZE
-          value: '1g'
+          value: '500m'
         securityContext:
           privileged: true
           capabilities:
@@ -53,7 +53,7 @@ spec:
               - IPC_LOCK
         resources:
           requests:
-            memory: 2Gi
+            memory: 1Gi
         volumeMounts:
         - name: es-data
           mountPath: /data
