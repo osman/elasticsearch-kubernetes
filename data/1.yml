@@ -31,10 +31,6 @@ spec:
           httpGet:
             path: /
             port: 9200
-        livenessProbe:
-          httpGet:
-            path: /
-            port: 9200
         env:
         - name: DISCOVERY_SERVICE
           value: elasticsearch-masters
