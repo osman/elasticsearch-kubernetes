@@ -9,7 +9,7 @@ metadata:
     id: '1'
 spec:
   replicas: 1
-  minReadySeconds: 5
+  minReadySeconds: 1
   strategy:
     type: Recreate
   template:
@@ -28,6 +28,10 @@ spec:
         - containerPort: 9300
           name: transport
         readinessProbe:
+          httpGet:
+            path: /
+            port: 9200
+        livenessProbe:
           httpGet:
             path: /
             port: 9200

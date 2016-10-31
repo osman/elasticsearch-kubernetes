@@ -8,7 +8,7 @@ metadata:
     type: master
 spec:
   replicas: 3
-  minReadySeconds: 5
+  minReadySeconds: 0
   strategy:
     rollingUpdate:
       maxSurge: 0

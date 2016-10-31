@@ -8,7 +8,7 @@ metadata:
     type: client
 spec:
   replicas: 2
-  minReadySeconds: 5
+  minReadySeconds: 1
   strategy:
     rollingUpdate:
       maxSurge: 5
@@ -31,6 +31,10 @@ spec:
         - containerPort: 9200
           name: http
         readinessProbe:
+          httpGet:
+            path: /
+            port: 9200
+        livenessProbe:
           httpGet:
             path: /
             port: 9200
